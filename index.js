@@ -210,23 +210,61 @@ function UlkelerinKazanmaSayilari(data, teamInitials) {
 return cupNumberByTeam;
 }
  
-console.log(UlkelerinKazanmaSayilari(fifaData, "ITA"));
+//console.log(UlkelerinKazanmaSayilari(fifaData, "ITA"));
 
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
-function EnCokGolAtan(/* kodlar buraya */) {
-  /* kodlar buraya */
+function EnCokGolAtan(data) {
+  const finals = data.filter((item) => item.Stage === "Final");
+  const goals = finals.map((item) => {
+    return item["Home Team Goals"] > item["Away Team Goals"]
+      ? item["Home Team Goals"]
+      : item["Away Team Goals"];
+  });
+  console.log(goals)
+  const maxGoals = Math.max(...goals);
+  console.log(maxGoals);
+  const maxGoalsIndex = goals.indexOf(maxGoals);
+  let maxGoalsTeam;
+  if (finals[maxGoalsIndex]["Home Team Goals"]>finals[maxGoalsIndex]["Away Team Goals"]){
+    maxGoalsTeam = finals[maxGoalsIndex]["Home Team Name"]
+  }
+  else {
+    maxGoalsTeam = finals[maxGoalsIndex]["Away Team Name"]
+  }
+  return maxGoalsTeam;
 }
+
+//console.log(EnCokGolAtan(fifaData));
 
 /*  BONUS 3: 
 EnKotuDefans() adında bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupasında finallerinde en çok golü yiyen takımı döndürsün*/
 
-function EnKotuDefans(/* kodlar buraya */) {
-  /* kodlar buraya */
+function EnKotuDefans(data) {
+  const finals = data.filter((item) => item.Stage === "Final");
+  const goals = finals.map((item) => {
+    return item["Home Team Goals"] > item["Away Team Goals"]
+      ? item["Home Team Goals"]
+      : item["Away Team Goals"];
+  });
+  const maxGoals = Math.max(...goals);
+  const maxGoalsIndex = goals.indexOf(maxGoals);
+  let maxGoalsAgainstTeam;
+   if (finals[maxGoalsIndex]["Home Team Goals"]>finals[maxGoalsIndex]["Away Team Goals"]){
+    maxGoalsAgainstTeam = finals[maxGoalsIndex]["Away Team Name"]
+  }
+  else {
+    maxGoalsAgainstTeam = finals[maxGoalsIndex]["Home Team Name"]
+  }
+  return maxGoalsAgainstTeam
 }
 
+//console.log(EnKotuDefans(fifaData))
+
 /* Hala vaktiniz varsa, README dosyasında listelenen hedeflerden istediğinizi aşağıdaki boşluğa yazabilirsiniz. */
+
+
 
 /* Bu satırın aşağısındaki kodları lütfen değiştirmeyin */
 function sa() {
