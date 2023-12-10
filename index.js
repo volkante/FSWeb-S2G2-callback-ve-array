@@ -46,7 +46,7 @@ const winnerWorldCup2014 =
     ? final2014[0]["Home Team Name"]
     : final2014[0]["Away Team Name"];
 
-console.log("The winner of World Cup 2014 is " + winnerWorldCup2014);
+//console.log("The winner of World Cup 2014 is " + winnerWorldCup2014);
 
 //B.N. aynı kodun ternary olmadan yazılmışı:
 // if (final2014[0]["Home Team Goals"] > final2014[0]["Away Team Goals"]) {
@@ -86,7 +86,7 @@ function Yillar(arr, callback) {
   return finalYears;
 }
 
-console.log(Yillar(fifaData, Finaller));
+//console.log(Yillar(fifaData, Finaller));
 
 /*  Görev 4: 
 	Bir higher-order fonksiyonu olan Kazananlar isimli fonksiyona aşağıdakileri uygulayın:  
@@ -110,7 +110,7 @@ function Kazananlar(arr, callback) {
   return kazananlar;
 }
 
-console.log(Kazananlar(fifaData, Finaller));
+//console.log(Kazananlar(fifaData, Finaller));
 
 /*  Görev 5: 
 	Bir higher-order fonksiyonu olan YillaraGoreKazananlar isimli fonksiyona aşağıdakileri uygulayın:
@@ -136,7 +136,7 @@ function YillaraGoreKazananlar(arr, cb1, cb2, cb3) {
   }
   return result;
 }
-console.table(YillaraGoreKazananlar(fifaData, Finaller, Yillar, Kazananlar));
+//console.table(YillaraGoreKazananlar(fifaData, Finaller, Yillar, Kazananlar));
 
 /*  Görev 6: 
 	Bir higher order fonksiyonu olan `OrtalamaGolSayisi` isimli fonksiyona aşağıdakileri uygulayın: 
@@ -161,7 +161,7 @@ function OrtalamaGolSayisi(cb) {
   return average.toFixed(2);
 }
 
-console.log(OrtalamaGolSayisi(Finaller(fifaData)));
+//console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 
 /// EKSTRA ÇALIŞMALAR ///
 
@@ -171,9 +171,46 @@ console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 	İpucu: "takım kısaltmaları" (team initials) için datada araştırma yapın!
 İpucu: `.reduce` Kullanın*/
 
-function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
-  /* kodlar buraya */
+// function UlkelerinKazanmaSayilari(data, teamInitial) {
+//   let cupNumber = 0
+//   const finallerArrayi = arr.filter((item) => {
+//     return item.Stage === "Final" && (item["Home Team Initials"] || item["Away Team Initials"] === teamInitial);
+//   });
+//   for (let i = 0; i < finallerArrayi.length; i++) {
+//     const element = finallerArrayi[i];
+//     if (element["Home Team Goals"] > element["Away Team Goals"]){
+
+//     }
+//   }
+// }
+
+function UlkelerinKazanmaSayilari(data, teamInitials) {
+  const finallerArrayi = data.filter((item) => {
+    return item.Stage === "Final";
+  });
+  const winners = finallerArrayi.map((item) => {
+    if (item["Home Team Goals"]>item["Away Team Goals"]){
+    return item["Home Team Initials"]
+  }
+  else if (item["Home Team Goals"]<item["Away Team Goals"]) {
+    return item["Away Team Initials"]
+  }
+  else {
+    return item["Win conditions"].split(" ")[0] === item["Home Team Name"]
+    ? item["Home Team Initials"]
+    : item["Away Team Initials"];
+  }
+});
+  let cupNumberByTeam = winners.reduce((acc, item)=>{
+  if (item===teamInitials.toUpperCase()){
+    acc ++
+  }
+  return acc;
+},0)
+return cupNumberByTeam;
 }
+ 
+console.log(UlkelerinKazanmaSayilari(fifaData, "ITA"));
 
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
